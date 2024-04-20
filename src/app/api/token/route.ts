@@ -18,7 +18,7 @@ export async function POST(req:Request){
         method:'post',
         headers:{
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization':'Basic ' + (Buffer.from('259739017edb450fbaa0189553b0a98a:fe640d23e84540e3973e1df2c4eab69a').toString('base64'))
+        'Authorization':'Basic ' + (Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64'))
       },
       body:bodyParams
     })

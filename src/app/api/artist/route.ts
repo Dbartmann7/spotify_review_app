@@ -1,19 +1,7 @@
-
+import { API } from "../SpotifyAPI"
 export async function POST(req:Request){
-    const tokenData = await req.json()
-    console.log(tokenData)
-    if(!tokenData.token.access_token){
-        return Response.json({
-            status:400,
-            message:'no token'
-        })
-    }
-    const res = await fetch('https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb', {
-        method:'get',
-        headers:{
-            'Authorization': `Bearer  ${tokenData.token.access_token}`
-        }
-    })
-
-    return Response.json(await res.json())
+    if(!API[0]) return Response.json({status:500, message:'No Spotify API found'})
+    const reqData = await req.json()
+    const items = await API[0].search(reqData.artist, ['artist'])
+    return Response.json(items)
 }

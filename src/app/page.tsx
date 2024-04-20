@@ -26,10 +26,15 @@ export default function Home() {
   useEffect(() => {
     console.log(artistList)
   }, [artistList])
-  function handleArtistClick(name:string){
+  function handleArtistClick(artist:any){
     let searchParams = new URLSearchParams()
-    searchParams.set('name', name)
-    router.push(`/artist/${name}?${searchParams}`)
+    searchParams.set('exurl', artist.external_urls.spotify)
+    searchParams.set('followers', artist.followers)
+    searchParams.set('genres', artist.genres.toString())
+
+
+    searchParams.set('bigImg', JSON.stringify(artist.images[0]))
+    router.push(`/artist/${artist.name}?${searchParams}`)
   }
   return (
     <>
@@ -44,7 +49,7 @@ export default function Home() {
       <ul>
         {
           artistList.items.map(artist =>{
-            return <p onClick={() => {handleArtistClick(artist.name)}}>{artist.name}</p>
+            return <p onClick={() => {handleArtistClick(artist)}}>{artist.name}</p>
           })
         }
       </ul>

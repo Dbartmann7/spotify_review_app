@@ -7,7 +7,6 @@ export async function GET(){
             `${process.env.CLIENT_SECRET}`
         )
         API.push(await spotifyAPI)
-        console.log(API[0])
     }
     
     

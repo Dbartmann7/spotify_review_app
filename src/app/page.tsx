@@ -2,54 +2,76 @@
 import { useContext, useEffect, useState } from "react";
 import { TokenContext } from "./contexts/TokenContext";
 import { useRouter } from "next/navigation";
+import { SearchBar } from "./Components/SearchBar/SearchBar";
+
+
 export default function Home() {
-  const [artistToSearch, setArtistToSearch] = useState<string>('')
-  const [artistList, setArtistList] = useState<{items:any[]}>({items:[]})
+  const [searchVal, setSearchVal] = useState<string>('')
+  const [searchType, setSearchType] = useState<string>('artist')
+  const [searchResultList, setSearchResultList] = useState<{items:any[]}>({items:[]})
+
   const router = useRouter()
   useEffect(() => {
-    async function authorise(){
-      const res = await fetch('http://localhost:3000/api/authorise')
-      console.log(await res.json()) 
-    }
+    
     authorise()
   }, [])
-
-  async function getArtistData(){
-    const res = await fetch('http://localhost:3000/api/artist', {
+  async function authorise(){
+    const res = await fetch('http://localhost:3000/api/authorise')
+    console.log(await res.json()) 
+  }
+  async function search(ttk:number){
+    const res = await fetch(`http://localhost:3000/api/${searchType}`, {
       method:'post',
-      body:JSON.stringify({artist:artistToSearch})
+      body:JSON.stringify({searchVal:searchVal})
     })
     let data = await res.json()
     console.log(data)
-    setArtistList(data.artists)
+    if(data.items) {
+      setSearchResultList(data)
+    }else{
+      authorise()
+      if(ttk > 0){
+        search(ttk-1)
+      }else{
+        throw new Error('error getting data')
+      }
+      
+    }
   }
   useEffect(() => {
-    console.log(artistList)
-  }, [artistList])
-  function handleArtistClick(artist:any){
+    console.log(searchResultList)
+  }, [searchResultList])
+  useEffect(() => {
+    console.log(searchType)
+  }, [searchType])
+  
+  function handleResultClick(data:any){
     let searchParams = new URLSearchParams()
-    searchParams.set('exurl', artist.external_urls.spotify)
-    searchParams.set('followers', artist.followers)
-    searchParams.set('genres', artist.genres.toString())
-
-
-    searchParams.set('bigImg', JSON.stringify(artist.images[0]))
-    router.push(`/artist/${artist.name}?${searchParams}`)
+   
+    searchParams.set('data', JSON.stringify(data))
+    router.push(`/${searchType}/${data.name}?${searchParams}`)
   }
+  
   return (
     <>
-      <input
-        style={{color:'black', textIndent:'5px'}}
-        placeholder="Search Artists..."
-        value={artistToSearch}
-        onChange={(e) => {setArtistToSearch(e.target.value)}}
+      <SearchBar 
+        searchVal={searchVal} 
+        setSearchVal={setSearchVal} 
+        searchType={searchType} 
+        setSearchType={setSearchType}
       />
-      <button onClick={getArtistData}>Get Artist Data</button>
+
+      <button onClick={() => {search(10)}}>Search</button>
       <br/>
       <ul>
         {
-          artistList.items.map(artist =>{
-            return <p onClick={() => {handleArtistClick(artist)}}>{artist.name}</p>
+          searchResultList.items.map(result =>{
+            if(result.album_type){
+              if(result.album_type !== 'album'){
+                return
+              }
+            }
+            return <p onClick={() => {handleResultClick(result)}}>{result.name}</p>
           })
         }
       </ul>

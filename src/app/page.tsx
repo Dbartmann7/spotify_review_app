@@ -59,11 +59,9 @@ export default function Home() {
         setSearchVal={setSearchVal} 
         searchType={searchType} 
         setSearchType={setSearchType}
+        search={search}
       />
-
-      <button onClick={() => {search(10)}}>Search</button>
-      <br/>
-      <ul>
+      {/* <ul className='mx-auto w-max'>
         {
           searchResultList.items.map(result =>{
             if(result.album_type){
@@ -74,7 +72,7 @@ export default function Home() {
             return <p onClick={() => {handleResultClick(result)}}>{result.name}</p>
           })
         }
-      </ul>
+      </ul> */}
     </>
   );
 }

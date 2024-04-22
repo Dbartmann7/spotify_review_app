@@ -8,7 +8,6 @@ export async function GET(){
         )
         API.push(spotifyAPI)
     }
-    console.log(API[0])
     
     return Response.json({})
 }

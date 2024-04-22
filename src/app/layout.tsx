@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} w-screen h-screen relative`}>
         <header className='w-svw h-20 border-b border-b-gray-100'></header>
-        <main className="w-[calc(100%-8px-16px)] h-[calc(100%-80px-8px-16px)] m-1 p-2">
+        <main className="w-[calc(100vw-8px)] h-[calc(100%-80px-8px-16px)] m-1 p-4">
           {children}
         </main>
         </body>

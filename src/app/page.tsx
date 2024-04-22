@@ -1,20 +1,20 @@
 'use client'
-import { useContext, useEffect, useState } from "react";
-import { TokenContext } from "./contexts/TokenContext";
+import {useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SearchBar } from "./Components/SearchBar/SearchBar";
-
+import { SearchBar } from "./Components/Search/SearchBar/SearchBar";
+import { SearchResultType } from "./types/SearchResultType";
+import { SearchResultList } from "./Components/Search/SearchResultList/SearchResultList";
 
 export default function Home() {
   const [searchVal, setSearchVal] = useState<string>('')
   const [searchType, setSearchType] = useState<string>('artist')
-  const [searchResultList, setSearchResultList] = useState<{items:any[]}>({items:[]})
+  const [searchResultList, setSearchResultList] = useState<SearchResultType>({type:''})
 
   const router = useRouter()
   useEffect(() => {
-    
     authorise()
   }, [])
+  
   async function authorise(){
     const res = await fetch('http://localhost:3000/api/authorise')
     console.log(await res.json()) 
@@ -26,8 +26,14 @@ export default function Home() {
     })
     let data = await res.json()
     console.log(data)
-    if(data.items) {
-      setSearchResultList(data)
+    if(data.status === 200) {
+      setSearchResultList(() => {
+        const result:SearchResultType = {type:''}
+        result.type = data.type
+        if(result.type === 'artist') result.artist = data.artists
+        if(result.type === 'album') result.album = data.albums    
+        return result
+      })
     }else{
       authorise()
       if(ttk > 0){
@@ -60,6 +66,12 @@ export default function Home() {
         searchType={searchType} 
         setSearchType={setSearchType}
         search={search}
+      />
+      
+      <SearchResultList
+        artistList={searchResultList.artist}
+        albumList={searchResultList.album}
+        handleResultClick={handleResultClick}
       />
       {/* <ul className='mx-auto w-max'>
         {

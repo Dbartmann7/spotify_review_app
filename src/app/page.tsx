@@ -48,7 +48,7 @@ export default function Home() {
     console.log(searchResultList)
   }, [searchResultList])
   useEffect(() => {
-    console.log(searchType)
+    if(searchVal.length > 0) search(10)
   }, [searchType])
   
   function handleResultClick(data:any){

@@ -1,5 +1,6 @@
 import {SpotifyApi} from '@spotify/web-api-ts-sdk'
 import { API } from '../SpotifyAPI'
+
 export async function GET(){
     if(!API[0]){
         const spotifyAPI= SpotifyApi.withClientCredentials(

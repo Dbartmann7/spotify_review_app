@@ -2,18 +2,16 @@
 import {useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchBar } from "./Components/Search/SearchBar/SearchBar";
-import { SearchResultType } from "./types/SearchResultType";
+import { SearchResultType } from "../types/SearchResultType";
 import { SearchResultList } from "./Components/Search/SearchResultList/SearchResultList";
+
 
 export default function Home() {
   const [searchVal, setSearchVal] = useState<string>('')
   const [searchType, setSearchType] = useState<string>('artist')
   const [searchResultList, setSearchResultList] = useState<SearchResultType>({type:''})
-
   const router = useRouter()
-  useEffect(() => {
-    authorise()
-  }, [])
+
   
   async function authorise(){
     const res = await fetch('http://localhost:3000/api/authorise')
@@ -44,9 +42,7 @@ export default function Home() {
       
     }
   }
-  useEffect(() => {
-    console.log(searchResultList)
-  }, [searchResultList])
+  
   useEffect(() => {
     if(searchVal.length > 0) search(10)
   }, [searchType])
@@ -55,7 +51,7 @@ export default function Home() {
     let searchParams = new URLSearchParams()
    
     searchParams.set('data', JSON.stringify(data))
-    router.push(`/${searchType}/${data.name}?${searchParams}`)
+    router.push(`/${searchResultList.type}/${data.name}?${searchParams}`)
   }
   
   return (

@@ -1,4 +1,4 @@
-import { SearchResultType } from "@/app/types/SearchResultType"
+import { SearchResultType } from "@/types/SearchResultType"
 import { API } from "../SpotifyAPI"
 
 import { Page, SimplifiedAlbum } from "@spotify/web-api-ts-sdk"

@@ -14,7 +14,7 @@ export default function AlbumPage({params}: { params: { album: string } }){
   
     return(
         <>
-            {params.album}
+            {albumData.name}
         </>
     )
 }

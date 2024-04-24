@@ -13,7 +13,7 @@ export default function ArtistPage({params}: { params: { artist: string } }){
    
     return(
         <>
-            {params.artist}
+            {artistData.name}
         </>
     )
 }

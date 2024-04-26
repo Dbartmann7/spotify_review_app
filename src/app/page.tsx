@@ -1,9 +1,10 @@
 'use client'
 import {useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SearchBar } from "./Components/Search/SearchBar/SearchBar";
+import { SearchBar } from "@/Components/Search/SearchBar/SearchBar";
 import { SearchResultType } from "../types/SearchResultType";
-import { SearchResultList } from "./Components/Search/SearchResultList/SearchResultList";
+import { SearchResultList } from "@/Components/Search/SearchResultList/SearchResultList";
+import { Album, Artist } from "@spotify/web-api-ts-sdk";
 
 
 export default function Home() {
@@ -47,7 +48,7 @@ export default function Home() {
     if(searchVal.length > 0) search(10)
   }, [searchType])
   
-  function handleResultClick(data:any){
+  function handleResultClick(data:Album | Artist){
     let searchParams = new URLSearchParams()
    
     searchParams.set('data', JSON.stringify(data))

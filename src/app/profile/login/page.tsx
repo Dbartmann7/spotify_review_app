@@ -1,6 +1,5 @@
 'use client'
 import { login } from "@/actions/session/session_actions"
-import { LogInContext } from "@/app/contexts/LogInContext"
 import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 
@@ -14,16 +13,17 @@ function LoginPage({}){
     } 
 
     return (
-        <div className=" w-full max-w-xl h-[500px] bg-red-400 mx-auto text-black [&>*>input]:indent-1">
-            <div>
+        <div className='w-full max-w-64 mx-auto [&>*>input]:indent-1 flex flex-col place-items-center place-content-center gap-5 h-96'>
+            <h1 className='text-4xl w-full mb-4'>Login</h1>
+            <div className='w-full'>
                 <p>Username</p>
-                <input className='' value={username} onChange={(e) => {setUsername(e.target.value)}}/>
+                <input className='w-full text-black' placeholder='test name:test' value={username} onChange={(e) => {setUsername(e.target.value)}}/>
             </div>
-            <div>
+            <div className='w-full'>
                 <p>Password</p>
-                <input type="password" value={password} onChange={(e) => {setPassword(e.target.value)}}/>
+                <input className='w-full text-black' placeholder="test pass:test" type="password" value={password} onChange={(e) => {setPassword(e.target.value)}}/>
             </div>
-            <button onClick={handleClick}>Submit</button>
+            <button className='mt-5' onClick={handleClick}>Submit</button>
         </div>
     )
 }
